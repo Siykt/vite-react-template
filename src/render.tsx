@@ -1,6 +1,5 @@
 import { StrictMode, Suspense } from 'react';
 import App from './pages/App';
-import { GlobalStyle } from './styles/global';
 import { createRoot } from 'react-dom/client';
 
 export default function render() {
@@ -10,7 +9,6 @@ export default function render() {
     root.render(
       <StrictMode>
         <Suspense fallback={null}>
-          <GlobalStyle />
           <App />
         </Suspense>
       </StrictMode>

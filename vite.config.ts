@@ -1,13 +1,57 @@
-import { defineConfig } from 'vite';
+import { defineConfig, PluginOption } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
+import UnoCSS from 'unocss/vite';
+import { visualizer } from 'rollup-plugin-visualizer';
+import Unfonts from 'unplugin-fonts/vite';
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, './src'),
+export default defineConfig(({ command, mode }) => {
+  const FONTS = [];
+
+  const plugins: PluginOption[] = [
+    UnoCSS(),
+    react(),
+    Unfonts({
+      custom: {
+        preload: true,
+        families: [
+          ...FONTS.map((font) => ({
+            name: font.split('.').at(0),
+            src: `./src/assets/fonts/${font}`,
+            local: [font.split('.').at(0)],
+          })),
+        ],
+      },
+    }),
+  ];
+
+  if (mode === 'analysis' && command === 'build') {
+    plugins.push(
+      visualizer({
+        open: true,
+        filename: `dist/analysis.html`,
+      })
+    );
+  }
+
+  return {
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            react: ['react', 'react-dom', 'react-router-dom'],
+            swiper: ['swiper'],
+          },
+        },
+      },
     },
-  },
-  plugins: [react()],
+    resolve: {
+      alias: {
+        '@': resolve(__dirname, './src'),
+        lodash: 'lodash-es',
+      },
+    },
+    plugins,
+  };
 });
