@@ -41,7 +41,6 @@ export default defineConfig(({ command, mode }) => {
         output: {
           manualChunks: {
             react: ['react', 'react-dom', 'react-router-dom'],
-            swiper: ['swiper'],
           },
         },
       },
