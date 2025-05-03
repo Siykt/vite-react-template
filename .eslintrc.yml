@@ -8,7 +8,7 @@ extends:
 parser: "@typescript-eslint/parser"
 settings:
   react:
-    version: "17.0.2"
+    version: "19.1.0"
 parserOptions:
   ecmaFeatures:
     jsx: true
