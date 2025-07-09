@@ -4,6 +4,7 @@ import { resolve } from 'path';
 import UnoCSS from 'unocss/vite';
 import { visualizer } from 'rollup-plugin-visualizer';
 import Unfonts from 'unplugin-fonts/vite';
+import svgr from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
@@ -23,6 +24,12 @@ export default defineConfig(({ command, mode }) => {
           })),
         ],
       },
+    }),
+    svgr({
+      svgrOptions: {
+        ref: true,
+      },
+      include: '**/*.svg',
     }),
   ];
 
